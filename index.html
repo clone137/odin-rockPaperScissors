@@ -4,9 +4,44 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .computerScoreDiv {
+        display: flex;
+      }
+      .playerScoreDiv {
+        display: flex;
+      }
+      div {
+        margin: 10px;
+      }
+    </style>
     <title>Rock Paper Scissors</title>
   </head>
   <body>
+    <div class="container">
+      <div class="rpsButtons">
+        <button class="rpsButton" value="rock">Rock</button>
+        <button class="rpsButton" value="paper">Paper</button>
+        <button class="rpsButton" value="scissors">Scissors</button>
+      </div>
+      <div class="computerScoreDiv">
+        <div class="computerScoreDivText">Computer Score</div>
+        <div class="computerScoreDivValue">0</div>
+      </div>
+      <div class="playerScoreDiv">
+        <div class="playerScoreDivText">Player Score</div>
+        <div class="playerScoreDivValue">0</div>
+      </div>
+      <div class="infoText"></div>
+      <div class="resetButton">
+        <button class="resetButton" value="scissors">Reset</button>
+      </div>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>

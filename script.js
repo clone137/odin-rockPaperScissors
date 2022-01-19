@@ -7,10 +7,9 @@ function computerPlay() {
 }
 
 function playRound(playerSelection, computerSelection) {
-  if (playerSelection.toLowerCase() === computerSelection) {
+  if (playerSelection === computerSelection) {
     return 0;
   }
-
   return playerSelection === 'rock' && computerSelection === 'scissors'
     ? 1
     : playerSelection === 'paper' && computerSelection === 'rock'
@@ -18,6 +17,63 @@ function playRound(playerSelection, computerSelection) {
     : playerSelection === 'scissors' && computerSelection === 'paper'
     ? 1
     : -1;
+}
+
+function resetEverything(e) {
+  const playerScore = document.querySelector('.playerScoreDivValue');
+  const computerScore = document.querySelector('.computerScoreDivValue');
+  const infoText = document.querySelector('.infoText');
+
+  playerScore.textContent = 0;
+  computerScore.textContent = 0;
+  infoText.textContent = '';
+
+  let allButtons = document.querySelectorAll('.rpsButton');
+  allButtons.forEach(function (button) {
+    button.disabled = false;
+  });
+}
+
+function buttonPress(e) {
+  const playerSelection = e.target.value.toLowerCase();
+  const computerSelection = computerPlay();
+
+  const playerScore = document.querySelector('.playerScoreDivValue');
+  const computerScore = document.querySelector('.computerScoreDivValue');
+  const infoText = document.querySelector('.infoText');
+
+  let result = playRound(playerSelection, computerSelection);
+  if (result === 1) {
+    playerScore.textContent = parseInt(playerScore.textContent) + 1;
+    infoText.textContent = `Player wins this round with ${capitalise(
+      playerSelection
+    )} beats ${capitalise(computerSelection)}!`;
+  } else if (result === -1) {
+    computerScore.textContent = parseInt(computerScore.textContent) + 1;
+    infoText.textContent = `Computer wins this round with ${capitalise(
+      computerSelection
+    )} beats ${capitalise(playerSelection)}!`;
+  } else {
+    infoText.textContent = `Draw - both players chose ${playerSelection}`;
+  }
+
+  if (parseInt(playerScore.textContent) === 5) {
+    infoText.textContent = `PLAYER WINS WITH 5::${parseInt(
+      computerScore.textContent
+    )}`;
+    let allButtons = document.querySelectorAll('.rpsButton');
+    allButtons.forEach(function (button) {
+      button.disabled = true;
+    });
+  } else if (parseInt(computerScore.textContent) === 5) {
+    infoText.textContent = `COMPUTER WINS WITH 5::${parseInt(
+      playerScore.textContent
+    )}`;
+    let allButtons = document.querySelectorAll('.rpsButton');
+    allButtons.forEach(function (button) {
+      button.disabled = true;
+    });
+  }
 }
 
 const capitalise = (word) =>
@@ -31,44 +87,17 @@ const overAllWinner = (playerScore, computerScore) =>
     : `It's a draw with ${playerScore}:${computerScore}!`;
 
 function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-  const numRounds = 5;
+  let container = document.querySelector('.container');
 
-  for (let i = 0; i < numRounds; i++) {
-    let playerSelection = prompt(
-      'Enter "rock", "paper" or "scissors" to make your choice'
-    );
-    let computerSelection = computerPlay();
+  // NOTE add an event listener to the rock, paper, scissors buttons
+  let allButtons = document.querySelectorAll('.rpsButton');
+  allButtons.forEach(function (currentValue) {
+    currentValue.addEventListener('click', buttonPress);
+  });
 
-    console.log('--- NEW ROUND ---');
-    console.log(computerSelection);
-
-    let result = playRound(playerSelection, computerSelection);
-    if (result === 1) {
-      playerScore++;
-      console.log(
-        `Player wins this round with ${capitalise(
-          playerSelection
-        )} beats ${capitalise(computerSelection)}!`
-      );
-    } else if (result === -1) {
-      computerScore++;
-      console.log(
-        `Computer wins this round with ${capitalise(
-          computerSelection
-        )} beats ${capitalise(playerSelection)}!`
-      );
-    } else {
-      console.log(`Draw - both players chose ${playerSelection}`);
-    }
-
-    console.log(
-      `Current score - Player (${playerScore}) : (${computerScore}) Computer`
-    );
-  }
-  console.log('--- OVERALL WINNER ---');
-  console.log(overAllWinner(playerScore, computerScore));
+  // NOTE add an event listener to the reset button
+  let resetButton = document.querySelector('.resetButton');
+  resetButton.addEventListener('click', resetEverything);
 }
 
 game();
