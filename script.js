@@ -26,7 +26,8 @@ function resetEverything(e) {
 
   playerScore.textContent = 0;
   computerScore.textContent = 0;
-  infoText.textContent = '';
+  infoText.textContent =
+    'To start playing click one of the three buttons at the top';
 
   let allButtons = document.querySelectorAll('.rpsButton');
   allButtons.forEach(function (button) {
